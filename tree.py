@@ -40,17 +40,32 @@ except (NotADirectoryError, FileNotFoundError):
 import os
 import pathlib
 
-file_path = input('Enter file path:')
-dir_name_1 = os.path.dirname(file_path)
-dir_name = os.chdir(dir_name_1)
+def dir_files_info():
+    file_path = input('Enter file path:')
+    dir_name_1 = os.path.dirname(file_path)
+    dir_name = os.chdir(dir_name_1)
+    data = []
 
-if os.path.isfile(file_path):
+    if os.path.isfile(file_path):
 
-    for root, dirs, files in os.walk(".", topdown=True):
-        for name in files:
-            print(os.path.join(root,name))
-        for name in dirs:
-            print(os.path.join(root,name))
+        for root, dirs, files in os.walk(".", topdown=True):
+            for name in files:
+                filename = os.path.join(root,name)
+                data.append(filename)
+                #print(os.path.join(root,name))
+            for name in dirs:
+                filename = os.path.join(root, name)
+                data.append(filename)
+                #print(os.path.join(root,name))
 
-else:
-    print('This is not a file path')
+    else:
+        print('This is not a file path')
+    return data
+
+new_file = open('output1.txt', 'w')
+
+for filename in dir_files_info():
+    new_file.write(filename)
+    new_file.write("\n");
+
+new_file.close()
